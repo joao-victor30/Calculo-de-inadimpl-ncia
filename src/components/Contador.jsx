@@ -36,7 +36,6 @@ const Contador = () => {
           type="number"
           id='sales'
           placeholder='5'
-          value={sales}
           onChange={(e) => setSales(Number(e.target.value))}
           required
         />
@@ -46,7 +45,6 @@ const Contador = () => {
           type="number"
           id='debt'
           placeholder='2'
-          value={debt}
           onChange={(e) => setDebt(Number(e.target.value))}
           required
         />
