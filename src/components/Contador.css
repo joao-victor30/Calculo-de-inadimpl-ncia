@@ -9,7 +9,6 @@
     gap: 16px;
     border-bottom: 2px solid #0097e6;
     border-top: 2px solid #0097e6;
-
 }
 
 .contador form {
@@ -38,7 +37,6 @@
     outline: none;
     transition: border 0.2s ease-in-out;
 }
-
 
 .contador input:focus {
     border-color: #0097e6;
@@ -80,4 +78,27 @@
 
 .vermelho {
     color: #e84118;
+}
+
+/* Novos estilos para o Score */
+.score {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f5f6fa;
+    border: 1px solid #dcdde1;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.score p:first-child {
+    font-size: 18px;
+    font-weight: 600;
+    color: #0097e6;
+}
+
+.score p:last-child {
+    font-size: 15px;
+    font-weight: 500;
+    color: #353b48;
+    margin-top: 6px;
 }
