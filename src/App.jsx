@@ -7,6 +7,7 @@ import Negociar from './components/Negociar'
 import './components/Negociar.css'
 
 import { useState } from 'react'
+import Gerador from './components/Gerador'
 
 function App() {
   const [tela, setTela] = useState('analise')
@@ -33,6 +34,13 @@ function App() {
         >
           Negociação
         </button>
+
+        <button
+          className={tela === 'gerador' ? 'ativo' : ''}
+          onClick={() => setTela('gerador')}
+        >
+          Gerar relatório
+        </button>
       </div>
 
       {tela === 'analise' && (
@@ -48,6 +56,9 @@ function App() {
       {tela === 'registro' && <Registro />}
 
       {tela === 'negociar' && <Negociar />}
+
+      {tela === 'gerador' && <Gerador />}
+
 
       <p id='identity'>{'\u00A9'} JoãoVFS</p>
     </div>
