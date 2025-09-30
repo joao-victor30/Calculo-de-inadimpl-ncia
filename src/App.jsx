@@ -5,9 +5,10 @@ import Registro from './components/Registro'
 import './components/Registro.css'
 import Negociar from './components/Negociar'
 import './components/Negociar.css'
+import Gerador from './components/Gerador'
+import './components/Gerador.css'
 
 import { useState } from 'react'
-import Gerador from './components/Gerador'
 
 function App() {
   const [tela, setTela] = useState('analise')
