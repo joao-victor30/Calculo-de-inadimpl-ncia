@@ -3,6 +3,9 @@ import Contador from './components/Contador'
 import './components/Contador.css'
 import Registro from './components/Registro'
 import './components/Registro.css'
+import Negociar from './components/Negociar'
+import './components/Negociar.css'
+
 import { useState } from 'react'
 
 function App() {
@@ -23,6 +26,13 @@ function App() {
         >
           Registro
         </button>
+
+        <button
+          className={tela === 'negociar' ? 'ativo' : ''}
+          onClick={() => setTela('negociar')}
+        >
+          Negociação
+        </button>
       </div>
 
       {tela === 'analise' && (
@@ -36,6 +46,8 @@ function App() {
       )}
 
       {tela === 'registro' && <Registro />}
+
+      {tela === 'negociar' && <Negociar />}
 
       <p id='identity'>{'\u00A9'} JoãoVFS</p>
     </div>
