@@ -20,11 +20,13 @@ const Gerador = () => {
         const clientes = {};
 
         linhas.forEach((linha) => {
-            const [cod, atraso] = linha.trim().split(/\s+/);
-            const atrasoNum = parseInt(atraso);
+            const partes = linha.trim().split(/\s+/);
+            const cod = partes[0];
+            const nome = partes.slice(1, -1).join(" ");
+            const atrasoNum = parseInt(partes[partes.length - 1]);
 
             if (!clientes[cod]) {
-                clientes[cod] = { total: 0, atrasos: 0, somaDias: 0 };
+                clientes[cod] = { nome, total: 0, atrasos: 0, somaDias: 0 };
             }
 
             clientes[cod].total++;
@@ -37,7 +39,7 @@ const Gerador = () => {
         const resumo = Object.entries(clientes).map(([cod, info]) => {
             const percentual = Math.round((info.atrasos / info.total) * 100);
             const media = info.atrasos > 0 ? Math.round(info.somaDias / info.atrasos) : 0;
-            return { cod, percentual, media, totalCompras: info.total };
+            return { cod, nome: info.nome, percentual, media, totalCompras: info.total };
         });
 
         setResultado(resumo);
@@ -61,13 +63,14 @@ const Gerador = () => {
 
         const tabela = resultado.map((r) => [
             r.cod,
+            r.nome,
             `${r.percentual}%`,
             `${r.media} dias`,
             r.totalCompras,
         ]);
 
         autoTable(doc, {
-            head: [["Cliente", "% de Atrasos", "Média Dias de Atraso", "Total de Compras"]],
+            head: [["Cliente", "Razão Social", "% de Atrasos", "Média Dias de Atraso", "Total de Compras"]],
             body: tabela,
             startY: 35,
         });
@@ -114,7 +117,7 @@ const Gerador = () => {
                     rows="10"
                     value={dados}
                     onChange={(e) => setDados(e.target.value)}
-                    placeholder="Cole aqui os dados (código e dias de atraso)"
+                    placeholder="Cole aqui os dados (código, razão social e dias de atraso)"
                 />
             </div>
 
@@ -135,6 +138,7 @@ const Gerador = () => {
                         <thead>
                             <tr>
                                 <th>Cliente</th>
+                                <th>Razão Social</th>
                                 <th>% de Atrasos</th>
                                 <th>Média Dias de Atraso</th>
                                 <th>Total de Compras</th>
@@ -144,6 +148,7 @@ const Gerador = () => {
                             {resultado.map((r) => (
                                 <tr key={r.cod}>
                                     <td>{r.cod}</td>
+                                    <td>{r.nome}</td>
                                     <td>{r.percentual}%</td>
                                     <td>{r.media} dias</td>
                                     <td>{r.totalCompras}</td>
