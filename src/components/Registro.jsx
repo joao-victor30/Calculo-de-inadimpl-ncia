@@ -7,13 +7,24 @@ const Registro = () => {
     const [codigo, setCodigo] = useState('');
     const [data, setData] = useState('');
     const [registros, setRegistros] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     // Buscar registros do backend
     useEffect(() => {
-        fetch(`${API}/registros`)
-            .then(res => res.json())
-            .then(data => setRegistros(data))
-            .catch(err => console.error(err));
+        const fetchRegistros = async () => {
+            try {
+                const res = await fetch(`${API}/registros`);
+                if (!res.ok) throw new Error('Erro ao buscar registros');
+                const data = await res.json();
+                setRegistros(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchRegistros();
     }, []);
 
     const adicionarRegistro = async (e) => {
@@ -33,20 +44,24 @@ const Registro = () => {
             setData('');
         } catch (err) {
             console.error(err);
+            setError('Erro ao adicionar registro');
         }
     };
 
     const limparRegistros = async () => {
         try {
-            // Deleta todos os registros do backend
-            await Promise.all(registros.map(r =>
-                fetch(`${API}/registros/${r._id}`, { method: 'DELETE' })
-            ));
+            await Promise.all(
+                registros.map(r => fetch(`${API}/registros/${r._id}`, { method: 'DELETE' }))
+            );
             setRegistros([]);
         } catch (err) {
             console.error(err);
+            setError('Erro ao excluir registros');
         }
     };
+
+    if (loading) return <p>Carregando registros...</p>;
+    if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
     return (
         <div className="registro-container">
@@ -74,7 +89,7 @@ const Registro = () => {
             </form>
 
             <div className="registros-lista">
-                {registros.map((r) => {
+                {registros.map(r => {
                     const dataBr = new Date(r.data).toLocaleDateString('pt-BR');
                     return (
                         <div className="registro-item" key={r._id}>
@@ -84,7 +99,6 @@ const Registro = () => {
                     );
                 })}
             </div>
-
         </div>
     );
 };
